@@ -84,8 +84,6 @@
   (when (fast-scroll-end-p)
     (with-current-buffer buf
       (setq fast-scroll--fn-called-in-buffer nil)
-      (setq mode-line-format fast-scroll-mode-line-original)
-      (font-lock-mode 1)
       (run-hooks 'fast-scroll-end-hook)
       (setq fast-scroll-throttling-p nil)
       (setq fast-scroll-count 0))))
@@ -101,6 +99,8 @@ The outer function is the non-private prefixed one, which will only run when it 
 a new buffer name (or found the existing buffer name to match the current one)."
   (unless fast-scroll-mode-line-original
     (setq fast-scroll-mode-line-original mode-line-format))
+  (unless fast-scroll-line-numbers-original
+    (setq fast-scroll-line-numbers-original display-line-numbers))
   (setq fast-scroll-count (+ 1 fast-scroll-count))
   (if (< fast-scroll-count 2)
       (progn
@@ -148,6 +148,12 @@ a new buffer name (or found the existing buffer name to match the current one)."
   (interactive)
   (global-set-key (kbd "<prior>") 'fast-scroll-scroll-down-command)
   (global-set-key (kbd "<next>") 'fast-scroll-scroll-up-command))
+  (add-hook 'fast-scroll-start-hook (lambda () (setq mode-line-format (fast-scroll-default-mode-line))))
+  (add-hook 'fast-scroll-start-hook (lambda () (font-lock-mode 0)))
+  (add-hook 'fast-scroll-start-hook (lambda () (setq display-line-numbers 'nil)))
+  (add-hook 'fast-scroll-end-hook (lambda () (setq mode-line-format fast-scroll-mode-line-original)))
+  (add-hook 'fast-scroll-end-hook (lambda () (font-lock-mode 1)))
+  (add-hook 'fast-scroll-end-hook (lambda () (setq display-line-numbers fast-scroll-line-numbers-original)))
 
 ;;;###autoload
 (defun fast-scroll-advice-scroll-functions ()
