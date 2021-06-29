@@ -163,6 +163,7 @@ a new buffer name (or found the existing buffer name to match the current one)."
   (advice-add #'scroll-down-command :around #'fast-scroll-run-fn-minimally)
   (advice-add #'evil-scroll-up :around #'fast-scroll-run-fn-minimally)
   (advice-add #'evil-scroll-down :around #'fast-scroll-run-fn-minimally))
+  (advice-add #'mwheel-scroll :around #'fast-scroll-run-fn-minimally)
 
 (defun fast-scroll-unload-function ()
   "Remove advice added by `fast-scroll-advice-scroll-functions'.
@@ -172,6 +173,7 @@ Note this function's name implies compatibility with `unload-feature'."
   (advice-remove #'scroll-down-command #'fast-scroll-run-fn-minimally)
   (advice-remove #'evil-scroll-up #'fast-scroll-run-fn-minimally)
   (advice-remove #'evil-scroll-down #'fast-scroll-run-fn-minimally)
+  (advice-remove #'mwheel-scroll #'fast-scroll-run-fn-minimally)
   nil)
 
 ;;;###autoload
