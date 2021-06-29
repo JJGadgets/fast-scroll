@@ -110,8 +110,6 @@ a new buffer name (or found the existing buffer name to match the current one)."
     (if fast-scroll-throttling-p
         (ignore-errors (apply f r))
       (progn
-        (setq mode-line-format (fast-scroll-default-mode-line))
-        (font-lock-mode 0)
         (run-hooks 'fast-scroll-start-hook)
         (ignore-errors (apply f r))))
     (run-at-time fast-scroll-throttle nil #'fast-scroll-end)
