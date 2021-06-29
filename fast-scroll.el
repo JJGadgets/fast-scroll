@@ -145,13 +145,13 @@ a new buffer name (or found the existing buffer name to match the current one)."
   "Load some config defaults / binds."
   (interactive)
   (global-set-key (kbd "<prior>") 'fast-scroll-scroll-down-command)
-  (global-set-key (kbd "<next>") 'fast-scroll-scroll-up-command))
+  (global-set-key (kbd "<next>") 'fast-scroll-scroll-up-command)
   (add-hook 'fast-scroll-start-hook (lambda () (setq mode-line-format (fast-scroll-default-mode-line))))
   (add-hook 'fast-scroll-start-hook (lambda () (font-lock-mode 0)))
   (add-hook 'fast-scroll-start-hook (lambda () (setq display-line-numbers 'nil)))
   (add-hook 'fast-scroll-end-hook (lambda () (setq mode-line-format fast-scroll-mode-line-original)))
   (add-hook 'fast-scroll-end-hook (lambda () (font-lock-mode 1)))
-  (add-hook 'fast-scroll-end-hook (lambda () (setq display-line-numbers fast-scroll-line-numbers-original)))
+  (add-hook 'fast-scroll-end-hook (lambda () (setq display-line-numbers fast-scroll-line-numbers-original))))
 
 ;;;###autoload
 (defun fast-scroll-advice-scroll-functions ()
@@ -160,8 +160,8 @@ a new buffer name (or found the existing buffer name to match the current one)."
   (advice-add #'scroll-up-command :around #'fast-scroll-run-fn-minimally)
   (advice-add #'scroll-down-command :around #'fast-scroll-run-fn-minimally)
   (advice-add #'evil-scroll-up :around #'fast-scroll-run-fn-minimally)
-  (advice-add #'evil-scroll-down :around #'fast-scroll-run-fn-minimally))
-  (advice-add #'mwheel-scroll :around #'fast-scroll-run-fn-minimally)
+  (advice-add #'evil-scroll-down :around #'fast-scroll-run-fn-minimally)
+  (advice-add #'mwheel-scroll :around #'fast-scroll-run-fn-minimally))
 
 (defun fast-scroll-unload-function ()
   "Remove advice added by `fast-scroll-advice-scroll-functions'.
